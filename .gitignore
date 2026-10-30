@@ -1,0 +1,8 @@
+.env
+*.p8
+*.p12
+*.mobileprovision
+data/
+dist/
+node_modules/
+*.zip

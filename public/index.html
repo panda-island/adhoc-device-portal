@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="iOS Ad Hoc 測試裝置註冊示範。由提交 UDID 到授權審核的透明流程。">
+  <title>小島測試室 · iOS 裝置註冊</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js" defer></script><script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="./"><span class="logo">島</span>小島測試室 <span class="brand-sub">DEVICE PORTAL</span></a><a href="#guide">使用說明 ↗</a></header>
+  <main>
+    <div class="eyebrow"><span class="dot"></span> iOS AD HOC · 開發測試專用</div>
+    <section class="intro"><div><h1>讓每一部測試裝置，<br><span>準備好下一次測試。</span></h1><p>提交裝置資訊、確認申請，再交由管理員審核。<br>每個步驟都有清楚的狀態，讓測試準備更有條理。</p></div><div class="intro-stamp"><span>01 — 04</span><strong>從裝置<br>到測試</strong><small>REGISTER. REVIEW. TEST.</small></div></section>
+    <div class="mode-banner" id="mode-banner" role="status">示範模式 · 請使用範例資料，資料只保留在此頁面記憶體，重新整理即清除。</div>
+    <nav class="steps" aria-label="申請進度"><span data-step="0">01 <b>裝置資訊</b></span><span data-step="1">02 <b>訂單概覽</b></span><span data-step="2">03 <b>付款示範</b></span><span data-step="3">04 <b>申請進度</b></span></nav>
+    <div class="workspace"><section class="card flow" id="flow" aria-live="polite"></section>
+      <aside><section class="card note"><span class="eyebrow">BEFORE YOU START</span><h2>為開發測試而設計</h2><ul><li>僅供您擁有或獲授權測試的 App。</li><li>UDID 是裝置識別碼，不是 Apple 帳號或密碼。</li><li>提交後仍需管理員確認測試資格與裝置狀態。</li></ul><div class="note-bottom"><span class="shield">◇</span><p>不提供憑證轉售<br><small>不公開 Apple 私鑰與 P12</small></p></div></section><p class="aside-caption">一個清楚、可追蹤的測試準備流程。</p></aside>
+    </div>
+    <section class="guide" id="guide"><div><span class="eyebrow">GOOD TO KNOW</span><h2>開始之前，先了解這些事。</h2></div><div><details><summary>如何取得我的 UDID？</summary><p>可在 Windows 的 Apple Devices App 連接並選取裝置，點選序號等裝置資訊切換顯示 UDID；不同版本介面可能有差異。不要填寫 IMEI、序號或 Apple ID。此頁面的範例按鈕可直接體驗流程。</p></details><details><summary>按下「我已付款」後會發生什麼？</summary><p>僅跳過付款頁並送交待審核。付款狀態始終為「未驗證」，不會扣款、自動通過審核或自動核發任何憑證。</p></details><details><summary>Ad Hoc 使用限制與資料保護</summary><p>Ad Hoc 僅用於 Apple 合約允許的有限裝置分發與授權測試，不代表可向公眾轉售憑證或開發者服務。公開示範請勿輸入真實 UDID。正式後端會儲存裝置資訊及稽核紀錄，由營運者另訂隱私、保存與刪除政策。</p><a href="https://developer.apple.com/support/terms/apple-developer-program-license-agreement/" target="_blank" rel="noreferrer">閱讀 Apple 開發者合約 ↗</a></details></div></section>
+    <details class="admin"><summary>管理員工作區</summary><p>僅在已連接後端時可用。管理密鑰只留在此頁記憶體，關閉或重新整理即清除。</p><form id="admin-login"><label for="admin-token">管理密鑰</label><div class="inline"><input id="admin-token" type="password" autocomplete="off" required><button class="secondary" type="submit">載入申請</button><button class="secondary" id="admin-logout" type="button">登出</button></div></form><div id="admin-results" aria-live="polite"></div></details>
+  </main><footer><span>小島測試室 <span class="muted">/ 開發工具示範</span></span><span>非 Apple 官方服務 · 無真實金流</span></footer>
+</body></html>

@@ -69,7 +69,7 @@ export async function createApp({ env = process.env, apple = createApple(env), d
       if (route === '/api/orders' && req.method === 'POST') {
         if (!validUdid(body.udid) || typeof body.deviceName !== 'string' || !body.deviceName.trim() || body.deviceName.length > 60 || body.consent !== true) return json(400, { error: '請填寫有效 UDID、裝置名稱並確認測試授權' });
         const token = randomBytes(32).toString('base64url');
-        const o = { id: randomUUID(), udid: body.udid.toUpperCase(), deviceName: body.deviceName.trim(), consent: true, createdAt: new Date().toISOString(), paymentStatus: 'unverified', reviewStatus: 'draft', profileStatus: 'none', downloadAuthorized: false };
+        const o = { id: randomUUID(), udid: body.udid.toUpperCase(), deviceName: body.deviceName.trim(), consent: true, createdAppleMode: apple.mode, createdAt: new Date().toISOString(), paymentStatus: 'unverified', reviewStatus: 'draft', profileStatus: 'none', downloadAuthorized: false };
         db.prepare('INSERT INTO orders VALUES(?,?,?)').run(o.id, hash(token), JSON.stringify(o)); audit(o.id, 'created');
         return json(201, { order: view(o), accessToken: token });
       }
@@ -97,6 +97,7 @@ export async function createApp({ env = process.env, apple = createApple(env), d
       if (adminRoute && action === 'audit' && req.method === 'GET') return json(200, db.prepare('SELECT at,action FROM audit WHERE orderId=? ORDER BY id').all(id));
       if (!adminRoute || req.method !== 'POST') return json(405, { error: '不支援此操作' });
       return await locked(id, async () => {
+        if (['register', 'profile', 'authorize-download'].includes(action) && o.createdAppleMode !== apple.mode) return json(409, { error: '申請建立時的 Apple 模式與目前不同，請在正確環境重新提交' });
         if (action === 'review') {
           if (!['approved', 'rejected'].includes(body.decision) || typeof body.reason !== 'string' || !body.reason.trim() || body.reason.length > 500 || o.reviewStatus === 'draft') return json(400, { error: '需先提交申請並提供審核決定與理由' });
           o.reviewStatus = body.decision; o.reviewReason = body.reason.trim();

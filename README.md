@@ -83,7 +83,7 @@ APPLE_CERTIFICATE_RESOURCE=your-existing-distribution-certificate-resource-id
 
 這兩個 resource ID 是 Apple API 的資源 ID，並非文字 Bundle ID 或 Team ID。JWT 使用 ES256、120 秒效期，只在伺服器記憶體產生。程式不提供任何 API 讓瀏覽器讀取 P8、P12、JWT 或環境變數。
 
-4. 申請人提交 → 管理員確認 App/測試裝置授權並記錄理由 → 註冊裝置（`POST /v1/devices`，先查同 UDID 避免重複）→ Apple 裝置必須 `ENABLED` → 建立 `IOS_APP_ADHOC` 描述檔（`POST /v1/profiles`）→ 管理員另行授權下載。
+4. 切換到 live 時請使用獨立 `DATA_DIR`，不要混用 mock 資料。不同 Apple 模式建立的申請不能沿用來註冊或建立描述檔。申請人提交 → 管理員確認 App/測試裝置授權並記錄理由 → 註冊裝置（`POST /v1/devices`，先查同 UDID 避免重複）→ Apple 裝置必須 `ENABLED` → 建立 `IOS_APP_ADHOC` 描述檔（`POST /v1/profiles`）→ 管理員另行授權下載。
 5. 描述檔從 Apple API 回應的 `profileContent` 取出，必須 ACTIVE 且未到期；儲存在非靜態目錄。下載端點再驗證申請 token、審核、授權、live 模式及到期日。撤回下載或拒絕審核會立刻阻擋之後的下載，但不能撤回使用者已下載的副本。
 
 本專案每筆申請建立一份只含該裝置的描述檔，**不修改、不刪除既有描述檔或憑證**。如需共用多裝置描述檔，請擴充獨立 profile version/裝置關聯模型。Apple 啟用延遲、年度裝置額度、權限、協議或憑證問題會阻擋作業；不承諾即時啟用。遠端寫入與本機儲存不能保證跨系統交易，網路結果不明時先在 Apple 後台確認，尤其建立描述檔不要盲目重試。
